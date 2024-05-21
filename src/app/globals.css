@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bad+Script&family=Courgette&family=Kumbh+Sans:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Courgette&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bad+Script&family=Courgette&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -78,8 +80,23 @@
 }
 
 * {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Kumbh Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-variation-settings: "wdth" 100;
+  font-variation-settings: "YOPQ" 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Bad Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cursive {
+  font-family: "Courgette", cursive;
 }

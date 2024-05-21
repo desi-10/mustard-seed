@@ -1,4 +1,8 @@
 "use client";
+import ActionBtn from "@/components/ActionBtn";
+import CredentialsError from "@/components/CredentialsError";
+import CredentialsSuccess from "@/components/CredentialsSuccess";
+import SpinnerLoader from "@/components/SpinnerLoader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,14 +33,17 @@ export default function Home() {
   const router = useRouter();
 
   const onSubmit = async (data: TypeSignIn) => {
-    await new Promise((resolve) => setTimeout(resolve, 20000));
-    console.log(data);
+    await new Promise((resolve) => setTimeout(resolve, 200000));
+    // const response = await fetch("/api/signin", {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    // });
   };
 
   return (
     <main className="relative h-screen w-screen flex justify-center items-center bg-[url('/assest/mustard.jpg')] bg-center bg-cover">
       <section className="absolute  justify-between w-[90%] md:w-[500px] items-center bg-white z-50  shadow-lg rounded-lg p-10">
-        <div className="flex justify-center items-center mb-5">
+        <div className="flex justify-center items-center mb-2">
           <Image
             src="/assest/cci.jpg"
             alt="cci-logo"
@@ -45,15 +52,19 @@ export default function Home() {
           />
         </div>
         <div className="w-full">
-          <h1 className="mb-5 text-center text-lg md:text-2xl">Sign In</h1>
+          <h1 className="mb-5 text-center text-lg md:text-2xl font-bold">
+            Sign In
+          </h1>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div>
               <Label htmlFor="username">Username</Label>
               <Input
                 {...register("username")}
+                id="username"
                 type="text"
                 placeholder="eg. James Bond"
+                disabled={isSubmitting}
               />
               {errors.username && (
                 <p className="text-red-500 text-sm">
@@ -65,8 +76,10 @@ export default function Home() {
               <Label htmlFor="password">Password</Label>
               <Input
                 {...register("password")}
+                id="password"
                 type="password"
                 placeholder="************"
+                disabled={isSubmitting}
               />
               {errors.password && (
                 <p className="text-red-500 text-sm">
@@ -78,27 +91,17 @@ export default function Home() {
               type="button"
               disabled={isSubmitting}
               onClick={() => router.push("/forgotten-password")}
-              className="w-fit text-right text-sm mt-3 mb-3 hover:text-blue-950 hover:underline"
+              className="w-fit mr-auto text-sm mt-3 mb-3 hover:text-blue-950 hover:underline disabled:cursor-not-allowed"
             >
               Forgotten Password?
             </button>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full  bg-amber-400 text-blue-900 hover:bg-blue-900 hover:text-amber-400 transition-colors duration-300 font-bold"
-            >
-              {isSubmitting ? (
-                <div className="flex items-center space-x-2">
-                  <RotatingLines
-                    width="20"
-                    strokeColor="rgb(23 37 84 / var(--tw-text-opacity))"
-                  />{" "}
-                  <span>Signing In...</span>
-                </div>
-              ) : (
-                "Sign In"
-              )}
-            </Button>
+            <ActionBtn
+              isSubmitting={isSubmitting}
+              label="Sign In"
+              loadingLabel="Signing In..."
+            />
+            <CredentialsError label="Invalid credentials" />
+            <CredentialsSuccess label="Login successfully" />
           </form>
         </div>
       </section>
