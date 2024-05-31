@@ -10,7 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { ImSpinner3 } from "react-icons/im";
 import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
 
@@ -25,6 +27,7 @@ export default function Home() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm<TypeSignIn>({
     resolver: zodResolver(signInSchema),
@@ -32,12 +35,27 @@ export default function Home() {
 
   const router = useRouter();
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const onSubmit = async (data: TypeSignIn) => {
-    await new Promise((resolve) => setTimeout(resolve, 200000));
-    // const response = await fetch("/api/signin", {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    // });
+    try {
+      const response = await fetch("/api/signin", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (result.message === "success") {
+        router.push("/dashboard");
+        setIsSuccess(true);
+        reset();
+      } else {
+        setIsError(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+    }
   };
 
   return (
@@ -45,8 +63,8 @@ export default function Home() {
       <section className="absolute  justify-between w-[90%] md:w-[500px] items-center bg-white z-50  shadow-lg rounded-lg p-10">
         <div className="flex justify-center items-center mb-2">
           <Image
-            src="/assest/cci.jpg"
-            alt="cci-logo"
+            src="/assest/cci.png"
+            alt="cci-image"
             width={100}
             height={100}
           />
@@ -100,8 +118,8 @@ export default function Home() {
               label="Sign In"
               loadingLabel="Signing In..."
             />
-            <CredentialsError label="Invalid credentials" />
-            <CredentialsSuccess label="Login successfully" />
+            {isError && <CredentialsError label="Invalid credentials" />}
+            {isSuccess && <CredentialsSuccess label="Login successfully" />}
           </form>
         </div>
       </section>
