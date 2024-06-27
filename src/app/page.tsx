@@ -2,19 +2,15 @@
 import ActionBtn from "@/components/ActionBtn";
 import CredentialsError from "@/components/CredentialsError";
 import CredentialsSuccess from "@/components/CredentialsSuccess";
-import SpinnerLoader from "@/components/SpinnerLoader";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ImSpinner3 } from "react-icons/im";
-import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
 
 const signInSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
@@ -40,21 +36,16 @@ export default function Home() {
 
   const onSubmit = async (data: TypeSignIn) => {
     try {
-      const response = await fetch("/api/signin", {
-        method: "POST",
-        body: JSON.stringify(data),
+      await signIn("credentials", {
+        username: data.username,
+        password: data.password,
+        callbackUrl: "/home",
       });
-      const result = await response.json();
-      if (result.message === "success") {
-        router.push("/dashboard");
-        setIsSuccess(true);
-        reset();
-      } else {
-        setIsError(true);
-      }
+      setIsSuccess(true);
+      reset();
     } catch (error) {
-      console.log(error);
       setIsError(true);
+      console.log(error);
     }
   };
 

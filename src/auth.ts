@@ -1,23 +1,12 @@
 import NextAuth from "next-auth";
-import credentials from "next-auth/providers/credentials";
+import authConfig from "./auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/db";
+import { PrismaClient } from "@prisma/client";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const prisma = new PrismaClient();
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  pages: {
-    signIn: "/",
-    signOut: "/",
-  },
-  providers: [
-    credentials({
-      credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (credentials) => {
-        return null;
-      },
-    }),
-  ],
+  session: { strategy: "jwt" },
+  ...authConfig,
 });
