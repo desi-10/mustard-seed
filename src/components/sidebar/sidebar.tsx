@@ -35,13 +35,22 @@ const Sidebar = () => {
       } bg-blue-900 flex  pt-5 h-screen overflow-y-auto transition-all duration-300`}
     >
       <div className="w-full">
-        <div
-          onClick={() => setToggleSidebar(!toggleSidebar)}
-          className="mb-20 mt-7  flex space-x-2 justify-center bg-white text-blue-900 p-4 w-fit mx-auto cursor-pointer rounded-lg"
-        >
-          <Menu />
-          {!toggleSidebar && <p>Menu</p>}
-        </div>
+        <TooltipProvider skipDelayDuration={300}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                onClick={() => setToggleSidebar(!toggleSidebar)}
+                className="mb-20 mt-7  flex space-x-2 justify-center bg-white text-blue-900 p-4 w-fit mx-auto cursor-pointer rounded-lg"
+              >
+                <Menu />
+                {!toggleSidebar && <p>Menu</p>}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Menu</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <section className="text-white text-sm">
           {links.map((link) => (
