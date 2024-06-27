@@ -7,7 +7,7 @@ import React from "react";
 
 const SummaryCard = () => {
   return (
-    <main className="border rounded-lg divide-y p-5 w-[80%] shadow-lg">
+    <main className="border rounded-lg divide-y p-5 w-[80%] shadow-lg bg-white">
       <h1 className="p-2 font-bold">Meetings History</h1>
       <div className="flex justify-between items-center divide-x-2 space-x-3 p-3">
         <section className="flex items-center space-x-4 p-5 w-full">

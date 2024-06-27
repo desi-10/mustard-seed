@@ -19,7 +19,7 @@ export default function ProtectedLayout({
     <html lang="en">
       <body className="flex">
         <Sidebar />
-        <main className="w-full h-screen overflow-y-auto">
+        <main className="w-full h-screen overflow-y-auto bg-gray-100">
           <Navbar />
           <div className="pt-10 px-6">{children}</div>
         </main>
