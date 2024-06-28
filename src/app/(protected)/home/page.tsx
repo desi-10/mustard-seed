@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
-import SummaryCard from "@/components/Dashboard/smmarycard";
-import { Laugh } from "lucide-react";
-import React from "react";
+import PieChartComponent from "@/components/Dashboard/piechart";
 
 const HomePage = async () => {
   const user = await auth();
+
+  const years = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
   return (
     <div className="">
@@ -19,9 +19,9 @@ const HomePage = async () => {
         {" , "}
       </section>
 
-      <section className="my-10 flex justify-center items-center ">
-        <SummaryCard />
-      </section>
+      <div className="mt-5">
+        <PieChartComponent />
+      </div>
     </div>
   );
 };

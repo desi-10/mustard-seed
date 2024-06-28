@@ -31,7 +31,7 @@ const Sidebar = () => {
   return (
     <aside
       className={`${
-        toggleSidebar ? "w-[5%]" : "w-[8%]"
+        toggleSidebar ? "w-[5%]" : "w-[10%]"
       } bg-blue-900 flex  pt-5 h-screen overflow-y-auto transition-all duration-300`}
     >
       <div className="w-full">
